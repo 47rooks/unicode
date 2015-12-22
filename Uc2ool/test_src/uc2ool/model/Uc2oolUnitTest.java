@@ -145,11 +145,11 @@ public class Uc2oolUnitTest {
     public void testHCPUBelow0() {
         try {
             m_calc.setInput("-12", InputType.HEXCODEPOINT);
+            fail("Excepted exception not thrown");
         } catch (IllegalArgumentException iae) {
             // Expected
             // FIXME Validate the exception message
         }
-        fail("Excepted exception not thrown");
     }
     
 
