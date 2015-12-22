@@ -146,9 +146,10 @@ public class Uc2oolUnitTest {
         try {
             m_calc.setInput("-12", InputType.HEXCODEPOINT);
             fail("Excepted exception not thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (UncheckedModelException uce) {
             // Expected
-            // FIXME Validate the exception message
+            assertTrue(uce.getLocalizedMessage().equals(
+                    "Invalid hexadecimal code point -12 encountered"));
         }
     }
     
