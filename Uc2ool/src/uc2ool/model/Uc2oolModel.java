@@ -2,7 +2,7 @@ package uc2ool.model;
 
 import java.util.logging.Logger;
 
-public class Calculator {
+public class Uc2oolModel {
     public enum InputType {
         CHARACTER,
         UTF8,
@@ -17,7 +17,7 @@ public class Calculator {
 	
 	private Logger m_logger;
 	
-	public Calculator(Logger l) {
+	public Uc2oolModel(Logger l) {
 	    m_logger = l;
 	}
 	

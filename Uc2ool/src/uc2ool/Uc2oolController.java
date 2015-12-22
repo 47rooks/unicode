@@ -26,8 +26,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import uc2ool.model.Calculator;
-import uc2ool.model.Calculator.InputType;
+import uc2ool.model.Uc2oolModel;
+import uc2ool.model.Uc2oolModel.InputType;
 
 public class Uc2oolController {
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -83,7 +83,7 @@ public class Uc2oolController {
     private Label m_statuBar;
     
     // The calculator for doing all the conversions
-	private Calculator m_model;
+	private Uc2oolModel m_model;
 	
 	// Debug logger
 	private Logger m_logger;
@@ -174,7 +174,7 @@ public class Uc2oolController {
             if (m_inputCharacter != null) {
             	m_logger.log(Level.FINEST, m_inputCharacter.getText());
             	
-            	// Get the input type and prime Calculator
+            	// Get the input type and prime Uc2oolModel
             	InputType type = 
             	    (InputType)
             	        ((RadioButton)m_inputType.getSelectedToggle()).
@@ -183,7 +183,7 @@ public class Uc2oolController {
             	m_logger.log(Level.FINEST, m_model.toString());
             	
             	// Now populate output display fields with data from the 
-            	// Calculator
+            	// Uc2oolModel
             	m_unicodeName.setText(m_model.getUnicodeCharacterName());
             	m_utf16Encoding.setText(m_model.getUTF16Encoding());
             	m_utf8Encoding.setText(m_model.getUTF8Encoding());
@@ -232,7 +232,7 @@ public class Uc2oolController {
     // conversions.
     private void connectToCalculator() {
         if (m_model == null) {
-            m_model = new Calculator(m_logger);
+            m_model = new Uc2oolModel(m_logger);
         }
     }
 

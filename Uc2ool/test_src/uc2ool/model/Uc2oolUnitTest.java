@@ -8,17 +8,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ds.debug.DebugLogger;
-import uc2ool.model.Calculator;
-import uc2ool.model.Calculator.InputType;
+import uc2ool.model.Uc2oolModel;
+import uc2ool.model.Uc2oolModel.InputType;
 
 public class Uc2oolUnitTest {
 
-    private Calculator m_calc;
+    private Uc2oolModel m_calc;
     
     @Before
     public void setUp() throws Exception {
-        m_calc = new Calculator(new DebugLogger("%t/CalculatorUnitTest%g.log",
-                                                "FINEST"));
+        m_calc = new Uc2oolModel(new DebugLogger("Uc2oolUnitTest",
+                                                 "uc2oolTests%g.log"));
     }
 
     @After
