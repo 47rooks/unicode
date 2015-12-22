@@ -39,7 +39,7 @@ public class Uc2oolUnitTest {
      * 0 - 0x7f
      * 0x80 - 0x7ff
      * 0x800 - 0xffff
-     * 0x10000 - 0x1fffff
+     * 0x10000 - 0x1fffff - this range terminates at 0x10FFFF in Unicode 8.
      * 0x200000 - 0x3ffffff - there are currently no codepoints in this range
      * 0x4000000 - 0x7fffffff - there are currently no codepoints in this range
      */
@@ -106,30 +106,37 @@ public class Uc2oolUnitTest {
     @Test
     public void testHCPUTF84Bytes() {
         // UGARITIC LETTER HO
-        testHCPUTF8Conversions("10385", InputType.HEXCODEPOINT, "F0 90 8E 85");
+        testHCPUTF8Conversions("10385",
+                               InputType.HEXCODEPOINT, "F0 90 8E 85");
     }
     
+    @Test
+    public void testHCPUTF84BytesLimit() {
+        // LAST CODE POINT VALUE
+        testHCPUTF8Conversions("0x01ffff", 
+                               InputType.HEXCODEPOINT, "F0 9F BF BF");
+    }
+
     @Test
     public void testHCPUTF84BytesHigh() {
-        // NOT ASSIGNED
-        testHCPUTF8Conversions("0x1fffff", InputType.HEXCODEPOINT, "F7 BF BF BF");
-    }
-    
-    @Test
-    public void testHCPUTF85Bytes() {
-        testHCPUTF8Conversions("41", InputType.HEXCODEPOINT, "1");
-    }
-    
-    @Test
-    public void testHCPUTF86Bytes() {
-        testHCPUTF8Conversions("41", InputType.HEXCODEPOINT, "1");
+        try {
+            // NOT ASSIGNED
+            testHCPUTF8Conversions("0x1fffff",
+                                   InputType.HEXCODEPOINT, "F7 BF BF BF");
+        } catch (UncheckedModelException uce) {
+            // Expected
+            assertTrue(uce.getLocalizedMessage().equals(
+                    "Invalid hexadecimal code point 0x1fffff encountered"));
+        }
     }
 
     /*
      * Core test method for all UTF-8 conversions and boundary conditions
+     * 
      * @param i the input string to convert
      * @param type the InputType
-     * @param result the expected result from <code>getUTFEncoding()</code> call
+     * @param result the expected result from <code>getUTF8Encoding()</code>
+     * call
      */
     private void testHCPUTF8Conversions(String i,
                                         InputType type, 
@@ -138,6 +145,64 @@ public class Uc2oolUnitTest {
         System.out.println("*" + m_calc.getUTF8Encoding() + "*");
         assertTrue(m_calc.getUTF8Encoding(),
                    m_calc.getUTF8Encoding().equals(result));
+    }
+    
+    /*
+     * 0 - 0xffff
+     * 0x10000 - 0x10FFFF terminates here in Unicode 8
+     */
+    @Test
+    public void testHCPUTF161IntLow() {
+        // NULL
+        testHCPUTF16Conversions("0", InputType.HEXCODEPOINT, "0000");
+    }
+
+    @Test
+    public void testHCPUTF161Int() {
+        // LATIN CAPITAL LETTER A
+        testHCPUTF16Conversions("41", InputType.HEXCODEPOINT, "0041");
+    }
+
+    @Test
+    public void testHCPUTF161IntHigh() {
+        // <UNNAMED>
+        testHCPUTF16Conversions("0xffff", InputType.HEXCODEPOINT, "FFFF");
+    }
+    
+    @Test
+    public void testHCPUTF162IntLow() {
+        // LINEAR B SYLLABLE B008 A
+        testHCPUTF16Conversions("10000", InputType.HEXCODEPOINT, "D800 DC00");
+    }
+    
+    @Test
+    public void testHCPUTF162Int() {
+        // BRAHMI SIGN CANDRABINDU
+        testHCPUTF16Conversions("11000", InputType.HEXCODEPOINT, "D804 DC00");
+    }
+    
+    @Test
+    public void testHCPUTF162IntHigh() {
+        // <UNNAMED>
+        testHCPUTF16Conversions("0x10ffff",
+                                InputType.HEXCODEPOINT, "DBFF DFFF");
+    }
+    
+    /*
+     * Core test method for the UTF-16 conversions and boundary conditions
+     * 
+     * @param i the input string to convert
+     * @param type the InputType
+     * @param result the expected result from <code>getUTF16Encoding()</code>
+     * call
+     */
+    private void testHCPUTF16Conversions(String i,
+                                         InputType type,
+                                         String result) {
+        m_calc.setInput(i, type);
+        System.out.println("*" + m_calc.getUTF16Encoding() + "*");
+        assertTrue(m_calc.getUTF16Encoding(),
+                   m_calc.getUTF16Encoding().equals(result));
     }
     
     // Test exception cases

@@ -104,7 +104,7 @@ public class Uc2oolModel {
             sb.append(Integer.toHexString(b));
             sb.append(" ");
 	    }
-	    return sb.toString().toUpperCase();
+	    return sb.toString().toUpperCase().trim();
 	}
 	
     /*
