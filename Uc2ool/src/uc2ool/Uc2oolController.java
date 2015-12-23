@@ -129,62 +129,10 @@ public class Uc2oolController {
             
             m_logger.entering(CLASS_NAME, "initialize");
             
-            if (m_process == null) {
-            	m_logger.log(Level.SEVERE, 
-            	    "fx:id=\"m_process\" was not injected: " +
-            	    "check your FXML file 'IssueTrackingLite.fxml'.");
-            }
-            if (m_inputCharacter == null) {
-            	m_logger.log(Level.SEVERE, 
-            		"fx:id=\"m_inputCharacter\" was not injected: " +
-            	    "check your FXML file 'IssueTrackingLite.fxml'.");
-            }
-            // Dump initial values of the radio buttons
-            if (m_inputType != null) {
-                StringBuilder sb = new StringBuilder("m_inputType buttons:\n");
-                m_characterRB.setUserData(InputType.CHARACTER);
-                m_hexCodePointRB.setUserData(InputType.HEXCODEPOINT);
-                m_decimalCodePointRB.setUserData(InputType.DECCODEPOINT);
-                m_UTF8EncodingRB.setUserData(InputType.UTF8);
-                m_inputType.getToggles().forEach(
-                        (rb) -> {sb.append("  ").append(rb.toString()).
-                                 append(" ").append(rb.isSelected()).
-                                 append("\n");});
-                m_logger.log(Level.FINEST, sb.toString());
-            }
-            if (m_font != null) {
-                // Get and sort all font names on the system and add
-                // them to the m_font ComboBox.
-                List<String> fonts = Font.getFontNames();
-                Collections.sort(fonts);
-                m_font.getItems().addAll(fonts);
-                m_font.valueProperty().addListener(
-                        new ChangeListener<String>() {
-                                @Override
-                                public void changed(ObservableValue<? extends String> o, String ov, String nv) {
-                                    m_fontValue = nv;
-                                    m_glyph.setFont(new Font(m_fontValue, m_fontSizeValue));
-                                }
-                });
-
-                m_font.setValue(DEFAULT_FONT_NAME);
-                
-            }
-            if (m_fontSize != null) {
-                m_fontSize.getItems().addAll("5", "7", "9", "12", "14", "16",
-                                             "18", "20", "24", "28", "32", "40",
-                                             "45", "52", "60", "72", "80", "100",
-                                             "130");
-                m_fontSize.valueProperty().addListener(
-                        new ChangeListener<String>() {
-                                @Override
-                                public void changed(ObservableValue<? extends String> o, String ov, String nv) {
-                                    m_fontSizeValue = Double.valueOf(nv);
-                                    m_glyph.setFont(new Font(m_fontValue, m_fontSizeValue));
-                                }
-                });
-                m_fontSize.setValue(DEFAULT_FONT_SIZE);
-            }
+            verifyLoaderInitialzation();
+            
+            initializeUIElements();
+            
             connectToCalculator();
             
             m_logger.exiting(CLASS_NAME, "initialize");
@@ -194,7 +142,94 @@ public class Uc2oolController {
     }
 
     /**
-     * Called when the Process button is fired.
+     * Initialize any UI elements that need to be set up.
+     * 
+     * FIXME - need to check out how exactly exception from the changed()
+     * methods in the listeners below are handled. I may perhaps require
+     * a Thread.UncaughtExceptionHandler
+     */
+    private void initializeUIElements() {
+        /* Initialize the radio buttons for indicating the input string
+         * interpretation.
+         */ 
+        if (m_inputType != null) {
+            StringBuilder sb = new StringBuilder("m_inputType buttons:\n");
+            m_characterRB.setUserData(InputType.CHARACTER);
+            m_hexCodePointRB.setUserData(InputType.HEXCODEPOINT);
+            m_decimalCodePointRB.setUserData(InputType.DECCODEPOINT);
+            m_UTF8EncodingRB.setUserData(InputType.UTF8);
+            
+            m_inputType.getToggles().forEach(
+                    (rb) -> {sb.append("  ").append(rb.toString()).
+                             append(" ").append(rb.isSelected()).
+                             append("\n");});
+            m_logger.log(Level.FINEST, sb.toString());
+        }
+        
+        /* Initialize the combobox for the font used for displaying the
+         * glyph. Set up a listener for changes in the property value.
+         */
+        if (m_font != null) {
+            // Get and sort all font names on the system and add
+            // them to the m_font ComboBox.
+            List<String> fonts = Font.getFontNames();
+            Collections.sort(fonts);
+            m_font.getItems().addAll(fonts);
+            m_font.valueProperty().addListener(
+                new ChangeListener<String>() {
+                        @Override
+                        public void changed(ObservableValue<? extends String> o, String ov, String nv) {
+                            m_fontValue = nv;
+                            m_glyph.setFont(new Font(m_fontValue, m_fontSizeValue));
+                        }
+            });
+
+            m_font.setValue(DEFAULT_FONT_NAME);
+            
+        }
+        
+        /* Set up the font size combo box with a range of values to choose
+         * from, and set the initial value. Add a listener to observe
+         * changes in selection.
+         */
+        if (m_fontSize != null) {
+            m_fontSize.getItems().addAll("5", "7", "9", "12", "14", "16",
+                                         "18", "20", "24", "28", "32", "40",
+                                         "45", "52", "60", "72", "80", "100",
+                                         "130");
+            m_fontSize.valueProperty().addListener(
+                new ChangeListener<String>() {
+                        @Override
+                        public void changed(ObservableValue<? extends String> o, String ov, String nv) {
+                            m_fontSizeValue = Double.valueOf(nv);
+                            m_glyph.setFont(new Font(m_fontValue, m_fontSizeValue));
+                        }
+            });
+            m_fontSize.setValue(DEFAULT_FONT_SIZE);
+        }
+    }
+
+    /**
+     * FIXME I am not sure I need this kind of validation but if it fails
+     * then I definitely need an UncheckedFatalException which will log 
+     * and then System.exit().
+     */
+    private void verifyLoaderInitialzation() {
+        if (m_process == null) {
+        	m_logger.log(Level.SEVERE, 
+        	    "fx:id=\"m_process\" was not injected: " +
+        	    "check your FXML file 'Uc2ool.fxml'.");
+        }
+        if (m_inputCharacter == null) {
+        	m_logger.log(Level.SEVERE, 
+        		"fx:id=\"m_inputCharacter\" was not injected: " +
+        	    "check your FXML file 'Uc2ool.fxml'.");
+        }
+    }
+
+    /* Called when the Process button is fired.
+     * When the application is running this is the primary processing
+     * API which is called.
      *
      * @param event the action event.
      */
@@ -226,11 +261,10 @@ public class Uc2oolController {
         }
     }
 
-    /*
-     * Handle exception popping up error dialogs to the user and logging
+    /* Handle exception popping up an error dialog to the user and logging
      * the error to the diagnostic log if required.
      * 
-     * @param cre the CalculatorRuntimeException or subclass to handle
+     * @param e the Exception to handle
      */
     private void handleException(Exception e) {
         if (e instanceof Uc2oolRuntimeException) {
@@ -253,13 +287,14 @@ public class Uc2oolController {
             dialog.setScene(new Scene(root));
             dialog.setTitle("Error");
             dialog.show();
-        } catch (IOException exc) {
-            exc.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
     
-    // Connect to the calculator model so that we can process Unicode character
-    // conversions.
+    /* Connect to the calculator model so that we can process Unicode character
+     * operations.
+     */
     private void connectToCalculator() {
         if (m_model == null) {
             m_model = new Uc2oolModel(m_logger);

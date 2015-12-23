@@ -24,7 +24,7 @@ public class Uc2oolModel {
 	private InputType m_type;
 	private int m_codepoint;
 	
-	private Logger m_logger;
+	private Logger m_logger;  // debug logger
 	
 	public Uc2oolModel(Logger l) {
 	    m_logger = l;
