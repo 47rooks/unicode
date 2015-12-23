@@ -6,6 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Main application launch class. Does nothing but boot the JavaFX environment
+ * and hence the application.
+ * 
+ * @author  Daniel Semler
+ * @version %I%, %G%
+ * @since   1.0
+ */
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {

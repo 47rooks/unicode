@@ -9,15 +9,16 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * CalculatorRuntimeException is the base class of all RuntimeExceptions
+ * Uc2oolRuntimeException is the base class of all RuntimeExceptions
  * used in the calculator. The reason runtime exceptions are used is so that
  * one does not have to declare thrown exceptions all over the code. At the
  * top level in the MVC controller all methods with use a common exception
  * handling mechanism which will catch this exception and process it as
  * required.
  * 
- * @author dsemler
- *
+ * @author  Daniel Semler
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class Uc2oolRuntimeException extends RuntimeException {
     

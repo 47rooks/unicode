@@ -2,6 +2,14 @@ package uc2ool.resources;
 
 import java.util.ListResourceBundle;
 
+/**
+ * The UI and error messages. The messages use the <code>String.format</code>
+ * format string syntax.
+ * 
+ * @author	Daniel Semler
+ * @version	%I%, %G%
+ * @since	1.0
+ */
 public class Messages extends ListResourceBundle {
 
     @Override

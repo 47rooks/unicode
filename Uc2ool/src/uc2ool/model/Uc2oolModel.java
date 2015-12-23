@@ -2,6 +2,15 @@ package uc2ool.model;
 
 import java.util.logging.Logger;
 
+/**
+ * Uc2oolModel is the model part of the MVC for this application. It handles
+ * all Unicode conversion tasks and codepoint validation. Any failures will
+ * be reported as UncheckedModelExceptions.
+ * 
+ * @author	Daniel Semler
+ * @version	%I%, %G%
+ * @since	1.0
+ */
 public class Uc2oolModel {
     public enum InputType {
         CHARACTER,
@@ -9,7 +18,7 @@ public class Uc2oolModel {
         DECCODEPOINT,
         HEXCODEPOINT
     }
-    private final int MAX_CODEPOINT = 1114112;
+    private final int MAX_CODEPOINT = 1114112; // As defined in Unicode 8.
     
 	private String m_input;
 	private InputType m_type;
@@ -197,6 +206,6 @@ public class Uc2oolModel {
 	
     @Override
     public String toString() {
-        return "Calculator [m_input=" + m_input + ", m_type=" + m_type + "]";
+        return "Uc2ool [m_input=" + m_input + ", m_type=" + m_type + "]";
     }
 }

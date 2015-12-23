@@ -29,6 +29,36 @@ import javafx.stage.Stage;
 import uc2ool.model.Uc2oolModel;
 import uc2ool.model.Uc2oolModel.InputType;
 
+/**
+ * Uc2oolController is the primary controller for the Uc2ool application. It
+ * works with the Uc2ool.fxml JavaFX UI configuration. In case it was not
+ * already obvious this application is a Model View Controller (MVC)
+ * application. This is the controller.
+ * 
+ * Uc2ool is a Unicode tool which allows you to examine different UTF encodings
+ * for Unicode characters, seeing glyphs for particular codepoints in any font,
+ * and allows you to determine the codepoint for a keyboard entered Unicode
+ * character. Other function will be added as time and requirements dictate.
+ * 
+ * It is all written in JavaFX and Java 8 and is written for Unicode version 8.
+ * 
+ * Exception handling is done using unchecked exceptions to minimise declaration
+ * of throws and error catching code. Instead all error translation occurs as
+ * close to the site of the initial exception. An unchecked exception with
+ * appropriate error message is thrown immediately. There is a general exception
+ * handling method in this module which will handle logging of error information
+ * and display of error messages to the user, through the
+ * <code>ErrorController</code> and <code>ErrorDialog.fxml</code>-defined 
+ * dialog box.
+ * 
+ * All public methods that might be called from the UI must surround their
+ * code in a try/catch which calls the exception handler method,
+ * <code>Uc2oolController</code>.
+ * 
+ * @author	Daniel Semler
+ * @version	%I%, %G%
+ * @since	1.0
+ */
 public class Uc2oolController {
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle m_resources;

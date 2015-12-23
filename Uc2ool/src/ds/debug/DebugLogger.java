@@ -7,14 +7,18 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 /**
  * A DebugLogger is a simple <code>java.util.logging.Logger</code> with a
- * FileHandler configured for rotation.
+ * FileHandler configured for log rotation. Currently barring the destination
+ * and logging level filename all parameters are hardwired, The logging must
+ * be passed as a system property on the VM command line. The property name
+ * is ds.debug.logging.level and the levels are regular 
+ * <code>java.util.logging.Level</code> levels.
  * 
- * @author dsemler
- *
+ * @author  Daniel Semler
+ * @version %I%, %G%
+ * @since   1.0
  */
 public class DebugLogger extends Logger {
 
@@ -41,7 +45,7 @@ public class DebugLogger extends Logger {
                                    MAX_FILE_SIZE,
                                    FILE_COUNT,
                                    APPEND);
-        // TODO write my own one line formatter
+
         fh.setFormatter(new DebugFormatter());
         addHandler(fh);
     }

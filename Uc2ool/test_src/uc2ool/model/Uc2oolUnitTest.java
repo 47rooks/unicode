@@ -11,6 +11,14 @@ import ds.debug.DebugLogger;
 import uc2ool.model.Uc2oolModel;
 import uc2ool.model.Uc2oolModel.InputType;
 
+/**
+ * These are the core {@link Uc2oolModel} tests testing basic conversion and
+ * validation functions.
+ * 
+ * @author	Daniel Semler
+ * @version	%I%, %G%
+ * @since	1.0
+ */
 public class Uc2oolUnitTest {
 
     private Uc2oolModel m_calc;
@@ -26,7 +34,8 @@ public class Uc2oolUnitTest {
         m_calc = null;
     }
 
-    /* Test Specification
+    /*
+     *  Test Specification
      *
      * For each range in each conversion algorithm test:
      *   edges of each conversion range and one within each range
@@ -34,7 +43,8 @@ public class Uc2oolUnitTest {
      *   unassigned code point
      */
     
-    /* Test conversions of the following codepoints to UTF-8
+    /*
+     *  Test conversions of the following codepoints to UTF-8
      *
      * 0 - 0x7f
      * 0x80 - 0x7ff
@@ -43,77 +53,82 @@ public class Uc2oolUnitTest {
      * 0x200000 - 0x3ffffff - there are currently no codepoints in this range
      * 0x4000000 - 0x7fffffff - there are currently no codepoints in this range
      */
+    
+    /*
+     * Hexadecimal input tests
+     */
+    
     @Test
     public void testHCPUTF81ByteLow() {
         // NULL
-        testHCPUTF8Conversions("0", InputType.HEXCODEPOINT, "00");
+        testCPUTF8Conversions("0", InputType.HEXCODEPOINT, "00");
     }
 
     @Test
     public void testHCPUTF81Byte() {
         // LATIN CAPITAL LETTER A
-        testHCPUTF8Conversions("41", InputType.HEXCODEPOINT, "41");
+        testCPUTF8Conversions("41", InputType.HEXCODEPOINT, "41");
     }
 
     @Test
     public void testHCPUTF81ByteHigh() {
         // DELETE
-        testHCPUTF8Conversions("7f", InputType.HEXCODEPOINT, "7F");
+        testCPUTF8Conversions("7f", InputType.HEXCODEPOINT, "7F");
     }
     
     @Test
     public void testHCPUTF82BytesLow() {
         // <UNNAMED - seems to be Euro character
-        testHCPUTF8Conversions("80", InputType.HEXCODEPOINT, "C2 80");
+        testCPUTF8Conversions("80", InputType.HEXCODEPOINT, "C2 80");
     }
     
     @Test
     public void testHCPUTF82Bytes() {
         // ARABIC NUMBER SIGN
-        testHCPUTF8Conversions("600", InputType.HEXCODEPOINT, "D8 80");
+        testCPUTF8Conversions("600", InputType.HEXCODEPOINT, "D8 80");
     }
     
     @Test
     public void testHCPUTF82BytesHigh() {
         // <UNNAMED>
-        testHCPUTF8Conversions("7ff", InputType.HEXCODEPOINT, "DF BF");
+        testCPUTF8Conversions("7ff", InputType.HEXCODEPOINT, "DF BF");
     }
     
     @Test
     public void testHCPUTF83BytesLow() {
         // SAMARITAN LETTER ALAF
-        testHCPUTF8Conversions("800", InputType.HEXCODEPOINT, "E0 A0 80");
+        testCPUTF8Conversions("800", InputType.HEXCODEPOINT, "E0 A0 80");
     }
     
     @Test
     public void testHCPUTF83Bytes() {
         // HEBREW LETTER WIDE LAMED
-        testHCPUTF8Conversions("fb25", InputType.HEXCODEPOINT, "EF AC A5");
+        testCPUTF8Conversions("fb25", InputType.HEXCODEPOINT, "EF AC A5");
     }
     
     @Test
     public void testHCPUTF83BytesHigh() {
         // <UNNAMED>
-        testHCPUTF8Conversions("ffff", InputType.HEXCODEPOINT, "EF BF BF");
+        testCPUTF8Conversions("ffff", InputType.HEXCODEPOINT, "EF BF BF");
     }
     
     @Test
     public void testHCPUTF84BytesLow() {
         // LINEAR B SYLLABLE B008 A
-        testHCPUTF8Conversions("10000", InputType.HEXCODEPOINT, "F0 90 80 80");
+        testCPUTF8Conversions("10000", InputType.HEXCODEPOINT, "F0 90 80 80");
     }
     
     @Test
     public void testHCPUTF84Bytes() {
         // UGARITIC LETTER HO
-        testHCPUTF8Conversions("10385",
+        testCPUTF8Conversions("10385",
                                InputType.HEXCODEPOINT, "F0 90 8E 85");
     }
     
     @Test
     public void testHCPUTF84BytesLimit() {
         // LAST CODE POINT VALUE
-        testHCPUTF8Conversions("0x01ffff", 
+        testCPUTF8Conversions("0x01ffff", 
                                InputType.HEXCODEPOINT, "F0 9F BF BF");
     }
 
@@ -121,13 +136,91 @@ public class Uc2oolUnitTest {
     public void testHCPUTF84BytesHigh() {
         try {
             // NOT ASSIGNED
-            testHCPUTF8Conversions("0x1fffff",
+            testCPUTF8Conversions("0x1fffff",
                                    InputType.HEXCODEPOINT, "F7 BF BF BF");
         } catch (UncheckedModelException uce) {
             // Expected
             assertTrue(uce.getLocalizedMessage().equals(
                     "Invalid hexadecimal code point 0x1fffff encountered"));
         }
+    }
+    
+    /*
+     * Decimal input tests
+     */
+
+    @Test
+    public void testDCPUTF81ByteLow() {
+        // NULL
+        testCPUTF8Conversions("0", InputType.DECCODEPOINT, "00");
+    }
+
+    @Test
+    public void testDCPUTF81Byte() {
+        // LATIN CAPITAL LETTER A
+        testCPUTF8Conversions("65", InputType.DECCODEPOINT, "41");
+    }
+
+    @Test
+    public void testDCPUTF81ByteHigh() {
+        // DELETE
+        testCPUTF8Conversions("127", InputType.DECCODEPOINT, "7F");
+    }
+    
+    @Test
+    public void testDCPUTF82BytesLow() {
+        // <UNNAMED - seems to be Euro character
+        testCPUTF8Conversions("128", InputType.DECCODEPOINT, "C2 80");
+    }
+    
+    @Test
+    public void testDCPUTF82Bytes() {
+        // ARABIC NUMBER SIGN
+        testCPUTF8Conversions("1536", InputType.DECCODEPOINT, "D8 80");
+    }
+    
+    @Test
+    public void testDCPUTF82BytesHigh() {
+        // <UNNAMED>
+        testCPUTF8Conversions("2047", InputType.DECCODEPOINT, "DF BF");
+    }
+    
+    @Test
+    public void testDCPUTF83BytesLow() {
+        // SAMARITAN LETTER ALAF
+        testCPUTF8Conversions("2048", InputType.DECCODEPOINT, "E0 A0 80");
+    }
+    
+    @Test
+    public void testDCPUTF83Bytes() {
+        // HEBREW LETTER WIDE LAMED
+        testCPUTF8Conversions("64293", InputType.DECCODEPOINT, "EF AC A5");
+    }
+    
+    @Test
+    public void testDCPUTF83BytesHigh() {
+        // <UNNAMED>
+        testCPUTF8Conversions("65535", InputType.DECCODEPOINT, "EF BF BF");
+    }
+    
+    @Test
+    public void testDCPUTF84BytesLow() {
+        // LINEAR B SYLLABLE B008 A
+        testCPUTF8Conversions("65536", InputType.DECCODEPOINT, "F0 90 80 80");
+    }
+    
+    @Test
+    public void testDCPUTF84Bytes() {
+        // UGARITIC LETTER HO
+        testCPUTF8Conversions("66437",
+                               InputType.DECCODEPOINT, "F0 90 8E 85");
+    }
+    
+    @Test
+    public void testDCPUTF84BytesLimit() {
+        // LAST CODE POINT VALUE
+        testCPUTF8Conversions("131071", 
+                               InputType.DECCODEPOINT, "F0 9F BF BF");
     }
 
     /*
@@ -138,7 +231,7 @@ public class Uc2oolUnitTest {
      * @param result the expected result from <code>getUTF8Encoding()</code>
      * call
      */
-    private void testHCPUTF8Conversions(String i,
+    private void testCPUTF8Conversions(String i,
                                         InputType type, 
                                         String result) {
         m_calc.setInput(i, type);
@@ -148,6 +241,7 @@ public class Uc2oolUnitTest {
     }
     
     /*
+     *  Test conversions of the following codepoints to UTF-16
      * 0 - 0xffff
      * 0x10000 - 0x10FFFF terminates here in Unicode 8
      */
@@ -218,5 +312,5 @@ public class Uc2oolUnitTest {
         }
     }
     
-
+    
 }

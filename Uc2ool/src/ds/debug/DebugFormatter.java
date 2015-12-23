@@ -9,8 +9,12 @@ import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 /**
- * @author dsemler
- *
+ * DebugFormatter provides a very simple log format where a single record is
+ * logged to a single trace log line.
+ * 
+ * @author      Daniel Semler
+ * @version     %I%, %G%
+ * @since       1.0
  */
 public class DebugFormatter extends Formatter {
 
