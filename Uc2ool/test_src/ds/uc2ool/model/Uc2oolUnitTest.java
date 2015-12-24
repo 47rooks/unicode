@@ -1,4 +1,4 @@
-package uc2ool.model;
+package ds.uc2ool.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
