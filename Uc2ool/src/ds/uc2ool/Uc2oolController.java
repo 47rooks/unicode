@@ -120,7 +120,7 @@ public class Uc2oolController {
 	private final static String LOGGER_NAME = "ds.uc2ool";
 	private final static String CLASS_NAME =
 	        Uc2oolController.class.getName();
-	private final static String DEBUG_FILE_NAME = "%t/ds.uc2ool%g.log";
+	private final static String DEBUG_FILE_NAME = "%t/uc2ool%g.log";
 	
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
