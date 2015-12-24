@@ -1,4 +1,4 @@
-package uc2ool;
+package ds.uc2ool;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

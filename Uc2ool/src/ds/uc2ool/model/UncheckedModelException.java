@@ -1,9 +1,9 @@
 /**
  * Copyright Daniel Semler 2015
  */
-package uc2ool.model;
+package ds.uc2ool.model;
 
-import uc2ool.Uc2oolRuntimeException;
+import ds.uc2ool.Uc2oolRuntimeException;
 
 /**
  * Objects of this class represent an exception in the (model)

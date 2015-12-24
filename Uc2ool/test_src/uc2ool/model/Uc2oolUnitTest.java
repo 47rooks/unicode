@@ -8,8 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ds.debug.DebugLogger;
-import uc2ool.model.Uc2oolModel;
-import uc2ool.model.Uc2oolModel.InputType;
+import ds.uc2ool.model.Uc2oolModel;
+import ds.uc2ool.model.UncheckedModelException;
+import ds.uc2ool.model.Uc2oolModel.InputType;
 
 /**
  * These are the core {@link Uc2oolModel} tests testing basic conversion and

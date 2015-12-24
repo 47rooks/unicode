@@ -1,4 +1,4 @@
-package uc2ool.model;
+package ds.uc2ool.model;
 
 import java.util.logging.Logger;
 

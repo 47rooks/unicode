@@ -1,4 +1,4 @@
-package uc2ool.resources;
+package ds.uc2ool.resources;
 
 import java.util.ListResourceBundle;
 

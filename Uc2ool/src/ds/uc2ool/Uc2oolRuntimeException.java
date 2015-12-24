@@ -1,7 +1,7 @@
 /**
  * Copyright Daniel Semler 2015
  */
-package uc2ool;
+package ds.uc2ool;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class Uc2oolRuntimeException extends RuntimeException {
     private final String m_msgKey;
     private final List<Object> m_args;
     private final static String RESOURCE_BUNDLE_NAME =
-            "uc2ool.resources.Messages";
+            "ds.uc2ool.resources.Messages";
     
     /*
      * Constructor taking message key and arguments to be substituted

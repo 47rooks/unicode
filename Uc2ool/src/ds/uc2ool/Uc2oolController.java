@@ -1,4 +1,4 @@
-package uc2ool;
+package ds.uc2ool;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,6 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import ds.debug.DebugLogger;
+import ds.uc2ool.model.Uc2oolModel;
+import ds.uc2ool.model.Uc2oolModel.InputType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -26,8 +28,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import uc2ool.model.Uc2oolModel;
-import uc2ool.model.Uc2oolModel.InputType;
 
 /**
  * Uc2oolController is the primary controller for the Uc2ool application. It
@@ -117,10 +117,10 @@ public class Uc2oolController {
 	
 	// Debug logger
 	private Logger m_logger;
-	private final static String LOGGER_NAME = "uc2ool";
+	private final static String LOGGER_NAME = "ds.uc2ool";
 	private final static String CLASS_NAME =
 	        Uc2oolController.class.getName();
-	private final static String DEBUG_FILE_NAME = "%t/uc2ool%g.log";
+	private final static String DEBUG_FILE_NAME = "%t/ds.uc2ool%g.log";
 	
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

@@ -1,7 +1,7 @@
 /**
  * Copyright Daniel Semler 2015
  */
-package uc2ool;
+package ds.uc2ool;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
