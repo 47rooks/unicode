@@ -135,6 +135,12 @@ public class Uc2oolController {
             
             connectToCalculator();
             
+            // set the exception handler for the JavaFX application thread
+            Thread.currentThread().setUncaughtExceptionHandler(
+                    (Thread thr, Throwable t) -> {
+                        handleException(t);
+            });
+            
             m_logger.exiting(CLASS_NAME, "initialize");
         } catch (Exception e) {
             handleException(e);
@@ -143,10 +149,6 @@ public class Uc2oolController {
 
     /**
      * Initialize any UI elements that need to be set up.
-     * 
-     * FIXME - need to check out how exactly exception from the changed()
-     * methods in the listeners below are handled. I may perhaps require
-     * a Thread.UncaughtExceptionHandler
      */
     private void initializeUIElements() {
         /* Initialize the radio buttons for indicating the input string
@@ -266,12 +268,16 @@ public class Uc2oolController {
      * 
      * @param e the Exception to handle
      */
-    private void handleException(Exception e) {
-        if (e instanceof Uc2oolRuntimeException) {
+    private void handleException(Throwable t) {
+        if (t instanceof Uc2oolRuntimeException) {
             
-            showErrorDialog(e);
+            showErrorDialog(t);
         } else {
-            e.printStackTrace();
+            // These are considered fatal to the application.
+            // FIXME application state may need to be considered here.
+            // For now a simple brutal exit will hold.
+            t.printStackTrace();
+            System.exit(-1);
         }
     }
     
