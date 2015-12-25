@@ -1,6 +1,8 @@
 package ds.uc2ool;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -212,20 +214,19 @@ public class Uc2oolController {
     }
 
     /**
-     * FIXME I am not sure I need this kind of validation but if it fails
-     * then I definitely need an UncheckedFatalException which will log 
-     * and then System.exit().
+     * I am not sure I need this kind of validation but if it fails
+     * it will throw Uc2oolFatalException which will log and then System.exit().
      */
     private void verifyLoaderInitialzation() {
         if (m_process == null) {
-        	m_logger.log(Level.SEVERE, 
-        	    "fx:id=\"m_process\" was not injected: " +
-        	    "check your FXML file 'Uc2ool.fxml'.");
+            throw new Uc2oolFatalException("INIT_FAILED",
+                                           "fx:id=\"m_process\"",
+                                           "uc2ool.fxml");
         }
         if (m_inputCharacter == null) {
-        	m_logger.log(Level.SEVERE, 
-        		"fx:id=\"m_inputCharacter\" was not injected: " +
-        	    "check your FXML file 'Uc2ool.fxml'.");
+            throw new Uc2oolFatalException("INIT_FAILED", 
+                                           "fx:id=\"m_inputCharacter\"",
+                                           "uc2ool.fxml");
         }
     }
 
@@ -269,7 +270,19 @@ public class Uc2oolController {
      * @param e the Exception to handle
      */
     private void handleException(Throwable t) {
-        if (t instanceof Uc2oolRuntimeException) {
+        
+        // Return codes that may be processed at the command line.
+        final int RC_OK            =  0;
+        final int RC_UNHANDLED_EXC = -1;
+        final int RC_FATAL_EXC     = -2;
+        
+        if (t instanceof Uc2oolFatalException) {
+            if (m_logger != null) {
+                m_logger.log(Level.SEVERE, t.getLocalizedMessage(), t);
+            }
+            showErrorDialog(t);
+            System.exit(RC_FATAL_EXC);
+        } else if (t instanceof Uc2oolRuntimeException) {
             
             showErrorDialog(t);
         } else {
@@ -277,7 +290,7 @@ public class Uc2oolController {
             // FIXME application state may need to be considered here.
             // For now a simple brutal exit will hold.
             t.printStackTrace();
-            System.exit(-1);
+            System.exit(RC_UNHANDLED_EXC);
         }
     }
     

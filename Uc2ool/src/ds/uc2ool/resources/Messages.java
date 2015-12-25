@@ -18,7 +18,12 @@ public class Messages extends ListResourceBundle {
     }
 
     static final Object[][] m_contents = {
-            { "INV_DEC_CP", "Invalid decimal code point %1$s encountered" },
-            { "INV_HEX_CP", "Invalid hexadecimal code point %1$s encountered" }
+            { "INV_DEC_CP", "Invalid decimal code point %1$s." },
+            { "INV_HEX_CP", "Invalid hexadecimal code point %1$s." },
+            
+            // Fatal errors requiring development, or at least code,
+            // investigation
+            { "INIT_FAILED", "Field %1$s did not initialize from %2%s." +
+                             " Contact developer - program will exit."}
     };
 }
