@@ -141,8 +141,9 @@ public class Uc2oolUnitTest {
                                    InputType.HEXCODEPOINT, "F7 BF BF BF");
         } catch (UncheckedModelException uce) {
             // Expected
-            assertTrue(uce.getLocalizedMessage().equals(
-                    "Invalid hexadecimal code point 0x1fffff encountered"));
+            assertTrue("Got : " + uce.getLocalizedMessage(),
+                       uce.getLocalizedMessage().equals(
+                           "Invalid hexadecimal code point 0x1fffff."));
         }
     }
     
@@ -308,8 +309,9 @@ public class Uc2oolUnitTest {
             fail("Excepted exception not thrown");
         } catch (UncheckedModelException uce) {
             // Expected
-            assertTrue(uce.getLocalizedMessage().equals(
-                    "Invalid hexadecimal code point -12 encountered"));
+            assertTrue("Got : " + uce.getLocalizedMessage(),
+                       uce.getLocalizedMessage().equals(
+                           "Invalid hexadecimal code point -12."));
         }
     }
     
